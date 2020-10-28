@@ -14,8 +14,7 @@ WORKDIR /usr/src/app
 # Copy contents
 COPY . /usr/src/app
 
-jdlfajld
-
+trytry
 
 # Copy weights
 #RUN python3 -c "from models import *; \
