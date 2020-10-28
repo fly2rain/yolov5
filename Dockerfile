@@ -14,6 +14,9 @@ WORKDIR /usr/src/app
 # Copy contents
 COPY . /usr/src/app
 
+jdlfajld
+
+
 # Copy weights
 #RUN python3 -c "from models import *; \
 #attempt_download('weights/yolov5s.pt'); \
