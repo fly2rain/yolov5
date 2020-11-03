@@ -8,12 +8,13 @@ RUN pip install --upgrade pip
 RUN pip install gsutil
 
 # Create working directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p  /app
+WORKDIR   /app
 
 # Copy contents
-COPY . /usr/src/app
+#COPY .  /app
 
+EXPOSE 22
 # Copy weights
 #RUN python3 -c "from models import *; \
 #attempt_download('weights/yolov5s.pt'); \

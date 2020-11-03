@@ -13,6 +13,7 @@ import torch
 from PIL import Image, ExifTags
 from torch.utils.data import Dataset
 from tqdm import tqdm
+from utils_fyzhu import GetFileLists
 
 from utils.general import xyxy2xywh, xywh2xyxy, torch_distributed_zero_first
 
@@ -77,7 +78,6 @@ class InfiniteDataLoader(torch.utils.data.dataloader.DataLoader):
 
     Uses same syntax as vanilla DataLoader.
     """
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         object.__setattr__(self, 'batch_sampler', _RepeatSampler(self.batch_sampler))
@@ -328,23 +328,28 @@ class LoadStreams:  # multiple IP or RTSP cameras
 class LoadImagesAndLabels(Dataset):  # for training/testing
     def __init__(self, path, img_size=640, batch_size=16, augment=False, hyp=None, rect=False, image_weights=False,
                  cache_images=False, single_cls=False, stride=32, pad=0.0, rank=-1):
-        try:
-            f = []  # image files
-            for p in path if isinstance(path, list) else [path]:
-                p = str(Path(p))  # os-agnostic
-                parent = str(Path(p).parent) + os.sep
-                if os.path.isfile(p):  # file
-                    with open(p, 'r') as t:
-                        t = t.read().splitlines()
-                        f += [x.replace('./', parent) if x.startswith('./') else x for x in t]  # local to global path
-                elif os.path.isdir(p):  # folder
-                    f += glob.iglob(p + os.sep + '*.*')
-                else:
-                    raise Exception('%s does not exist' % p)
-            self.img_files = sorted(
-                [x.replace('/', os.sep) for x in f if os.path.splitext(x)[-1].lower() in img_formats])
-        except Exception as e:
-            raise Exception('Error loading data from %s: %s\nSee %s' % (path, e, help_url))
+        # try:
+        #     f = []  # image files
+        #     for p in path if isinstance(path, list) else [path]:
+        #         p = str(Path(p))  # os-agnostic
+        #         parent = str(Path(p).parent) + os.sep
+        #         if os.path.isfile(p):  # file
+        #             with open(p, 'r') as t:
+        #                 t = t.read().splitlines()
+        #                 f += [x.replace('./', parent) if x.startswith('./') else x for x in t]  # local to global path
+        #         elif os.path.isdir(p):  # folder
+        #             f += glob.iglob(p + os.sep + '*.*')
+        #         else:
+        #             raise Exception('%s does not exist' % p)
+        #     self.img_files = sorted(
+        #         [x.replace('/', os.sep) for x in f if os.path.splitext(x)[-1].lower() in img_formats])
+        # except Exception as e:
+        #     raise Exception('Error loading data from %s: %s\nSee %s' % (path, e, help_url))
+        f = GetFileLists(path, interested_type=img_formats).get_file_list_del_empty_files()
+        self.img_files = sorted([x.replace('/', os.sep) for x in f])
+
+        f = GetFileLists(path, interested_type="txt").get_file_list()
+        self.label_files = sorted([x.replace('/', os.sep) for x in f])
 
         n = len(self.img_files)
         assert n > 0, 'No images found in %s. See %s' % (path, help_url)
@@ -361,10 +366,9 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         self.mosaic = self.augment and not self.rect  # load 4 images at a time into a mosaic (only during training)
         self.mosaic_border = [-img_size // 2, -img_size // 2]
         self.stride = stride
-
         # Define labels
-        sa, sb = os.sep + 'images' + os.sep, os.sep + 'labels' + os.sep  # /images/, /labels/ substrings
-        self.label_files = [x.replace(sa, sb, 1).replace(os.path.splitext(x)[-1], '.txt') for x in self.img_files]
+        # sa, sb = os.sep + 'images' + os.sep, os.sep + 'labels' + os.sep  # /images/, /labels/ substrings
+        # self.label_files = [x.replace(sa, sb, 1).replace(os.path.splitext(x)[-1], '.txt') for x in self.img_files]
 
         # Check cache
         cache_path = str(Path(self.label_files[0]).parent) + '.cache'  # cached labels
@@ -504,7 +508,6 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
 
     def __len__(self):
         return len(self.img_files)
-
     # def __iter__(self):
     #     self.count = -1
     #     print('ran dataset iter')
