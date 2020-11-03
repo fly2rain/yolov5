@@ -13,5 +13,5 @@ if __name__ == "__main__":
     print(sum(ratio))
     print([x/sum(ratio) for x in ratio])
 
-    print(os.path.join("/home/fyzhu",  "Data/Yolo"))
+    print(os.path.join("/home/fyzhu",  "Data/Yolo" + ".txt"))
 

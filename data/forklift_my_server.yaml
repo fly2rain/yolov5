@@ -9,8 +9,9 @@
 #download: https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128.zip
 
 # train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
-train: /media/fyzhu/data2T_0/yolov3_training/forklift_model/split_tr_val_ts_data_20191210/Train  # 2647 images
-val: /media/fyzhu/data2T_0/yolov3_training/forklift_model/split_tr_val_ts_data_20191210/Validation  # 757 images
+train: /media/fyzhu/data2T_0/yolov3_training/forklift_model/data_20191210/Train.txt  # 2647 images
+val: /media/fyzhu/data2T_0/yolov3_training/forklift_model/data_20191210/Validation.txt  # 757 images
+/media/fyzhu/data2T_0/yolov3_training/forklift_model/data_20191210
 
 # number of classes
 nc: 1
