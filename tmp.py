@@ -1,7 +1,8 @@
-print("hello world")
+# print("hello world")
 
 # with open(log_dir / 'hyp.yaml', 'w') as f:
 #     yaml.dump(hyp, f, sort_keys=False)
+import os
 
 if __name__ == "__main__":
     ratio_str = "0.7  0.1  0.2"
@@ -11,3 +12,6 @@ if __name__ == "__main__":
 
     print(sum(ratio))
     print([x/sum(ratio) for x in ratio])
+
+    print(os.path.join("/home/fyzhu",  "Data/Yolo"))
+
