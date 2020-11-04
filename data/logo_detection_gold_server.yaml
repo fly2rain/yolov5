@@ -1,0 +1,25 @@
+# COCO 2017 dataset http://cocodataset.org - first 128 training images
+# Train command: python train.py --data coco128.yaml
+# Default dataset location is next to /yolov5:
+#   /parent_folder
+#     /coco128
+#     /yolov5
+
+# download command/URL (optional)
+#download: https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128.zip
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+train: /media/Train.txt  # 2647 images
+val:   /media/Validation.txt  # 757 images
+
+# number of classes
+nc: 64
+
+# class names
+names: ['mm_towels', 'tide', 'pepsi', 'pom', 'diet_coke', 'sprite', 'gatorade', 'premier_protein', 'cocacola',
+        'bathtissue', 'monster', 'bounty', 'mtn_dew', 'mm_purifiedwater', 'drpepper', 'power_flex', 'quited_northern',
+        'caprisun', 'snickers', 'redbull', 'redbull_variety', 'aquafina', 'dasani', 'facial_tissue', 'squirt', 'downy',
+        'gain', 'canada_dry', 'cascade', 'charmin', 'cheezit', 'clorox', 'cottonelle', 'crush', 'dole', 'doritos',
+        'glad', 'goldfish', 'hefty', 'kleenex', 'lacroix', 'lays', 'lipton', 'mccafe', 'nestle_pure_life', 'ocean_spray',
+        'oreo', 'ozarka', 'perrier', 'powerade', 'pringles', 'reeses', 'ritz_bits', 'scott', 'smartwater', 'spellecrino',
+        'starbucks', 'sunkist', 't_shirt', 'tropicana', 'twix', 'vatmin_water', 'welchs', 'ziploc']
+

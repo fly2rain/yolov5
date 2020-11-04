@@ -348,12 +348,16 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         # except Exception as e:
         #     raise Exception('Error loading data from %s: %s\nSee %s' % (path, e, help_url))
         # f = GetFileLists(path, interested_type=img_formats).get_file_list_del_empty_files()
-        f = path  # in this version, path is a list of images to process.
-        self.img_files = sorted([x.replace('/', os.sep) for x in f])
-        self.label_files = [OsProcess().change_ext_4_filename(x, ".txt") for x in self.img_files]
-
+        # f = path  # in this version, path is a list of images to process.
+        # self.img_files = sorted([x.replace('/', os.sep) for x in f])
+        with open(path, "r") as f:
+            img_list = f.readlines()
+        self.img_files = [x.split("\n")[0] for x in img_list]
         n = len(self.img_files)
-        print(f"num of images: {n}")
+        # print(f"hello-hello:: {n}")
+        # input()
+
+        self.label_files = [OsProcess().change_ext_4_filename(x, ".txt") for x in self.img_files]
 
         assert n > 0, 'No images found in %s. See %s' % (path, help_url)
         bi = np.floor(np.arange(n) / batch_size).astype(np.int)  # batch index
@@ -384,7 +388,8 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
 
         # Get labels
         labels, shapes = zip(*[cache[x] for x in self.img_files])
-        self.shapes = np.array(shapes, dtype=np.float64)
+        # print("hello: ", len(shapes), type(shapes))
+        # self.shapes = np.array(shapes, dtype=np.float64)
         self.labels = list(labels)
 
         # Rectangular Training  https://github.com/ultralytics/yolov3/issues/232
