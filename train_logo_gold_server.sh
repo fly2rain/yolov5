@@ -4,7 +4,15 @@ python partition_train_val_test.py \
     -dst  /media
 
 # 2. Start to train the model
-python train.py --img 640 --batch 512 --epochs 100 \
+python train.py --img 640 --batch 108 --epochs 100 \
       --data logo_detection_gold_server.yaml \
       --cfg yolov5l.yaml \
+      --weights "" \
       --device 0,1,2,3
+
+python -m torch.distributed.launch --nproc_per_node 4 \
+		train.py --img 640 --batch 108 --epochs 100 \
+	    --data logo_detection_gold_server.yaml \
+	    --cfg yolov5l.yaml \
+	    --weights '' \
+        --device 0,1,2,3

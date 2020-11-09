@@ -389,7 +389,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         # Get labels
         labels, shapes = zip(*[cache[x] for x in self.img_files])
         # print("hello: ", len(shapes), type(shapes))
-        # self.shapes = np.array(shapes, dtype=np.float64)
+        self.shapes = np.array(shapes, dtype=np.float64)
         self.labels = list(labels)
 
         # Rectangular Training  https://github.com/ultralytics/yolov3/issues/232
