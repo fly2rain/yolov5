@@ -21,7 +21,6 @@
 *.json
 *.zip
 
-/runs
 *.cfg
 !cfg/yolov3*.cfg
 

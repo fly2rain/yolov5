@@ -30,6 +30,7 @@ def get_parser():
 def split_train_val_test_set(src, dst, ratio):
     # 1. Get the image file list
     img_list = GetFileLists(src, interested_type="image").get_file_list_del_empty_files()
+    random.seed(0)
     random.shuffle(img_list)
     n_smp = len(img_list)
 

@@ -127,6 +127,7 @@ class LoadImages:  # for inference
 
         self.img_size = img_size
         self.files = images + videos
+
         self.nf = ni + nv  # number of files
         self.video_flag = [False] * ni + [True] * nv
         self.mode = 'images'
