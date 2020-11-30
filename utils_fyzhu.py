@@ -87,8 +87,8 @@ class CFG:
 class GetFileLists:
     def __init__(self, src: str, interested_type="image", del_hidden: bool = False):
         self.os_proc = OsProcess()
-        self.src = self.os_proc.standardize_given_path(src)
-        self.del_hidden = ConvertFormats.str_2_bool(del_hidden)
+        self.src = src
+        self.del_hidden = del_hidden
 
         if isinstance(interested_type, str):
             self.interested_types = self.get_interested_fileTypes(interested_type)
